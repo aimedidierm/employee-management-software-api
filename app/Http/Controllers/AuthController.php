@@ -37,7 +37,6 @@ class AuthController extends Controller
         if ($user && Hash::check($password, $user->password)) {
             Auth::login($user);
 
-            // Create a token using Sanctum
             $token = $user->createToken('token')->plainTextToken;
 
             return response()->json([
@@ -53,7 +52,6 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        // Revoke the token that was used to authenticate the user
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
