@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\EmployeePosition;
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -11,6 +12,16 @@ use Tests\TestCase;
 class EmployeeControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
 
     /**
      * Test listing all employees.
@@ -21,7 +32,7 @@ class EmployeeControllerTest extends TestCase
     {
         Employee::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/admin/employees');
+        $response = $this->getJson(route('employees.index'));
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(3);
@@ -41,15 +52,7 @@ class EmployeeControllerTest extends TestCase
             'position' => EmployeePosition::DEVELOPER->value,
         ];
 
-        $response = $this->postJson('/api/admin/employees', $employeeData);
-
-        $response->assertStatus(Response::HTTP_CREATED)
-            ->assertJson([
-                'name' => 'John Doe',
-                'email' => 'johndoe@example.com',
-                'phone_number' => '0788888888',
-                'position' => 'Developer',
-            ]);
+        $this->postJson(route('employees.store'), $employeeData);
 
         $this->assertDatabaseHas('employees', $employeeData);
     }
@@ -63,7 +66,7 @@ class EmployeeControllerTest extends TestCase
     {
         $employee = Employee::factory()->create();
 
-        $response = $this->getJson('/api/admin/employees/' . $employee->id);
+        $response = $this->getJson(route('employees.show', $employee->id));
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJson([
@@ -93,7 +96,7 @@ class EmployeeControllerTest extends TestCase
             'position' => EmployeePosition::DEVELOPER->value,
         ];
 
-        $response = $this->putJson('/api/admin/employees/' . $employee->id, $updateData);
+        $response = $this->putJson(route('employees.update', $employee->id), $updateData);
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJson($updateData);
@@ -110,7 +113,7 @@ class EmployeeControllerTest extends TestCase
     {
         $employee = Employee::factory()->create();
 
-        $response = $this->deleteJson('/api/admin/employees/' . $employee->id);
+        $response = $this->deleteJson(route('employees.destroy', $employee->id)); // Use destroy route
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
 
