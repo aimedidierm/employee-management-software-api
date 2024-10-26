@@ -36,7 +36,7 @@ class AttendanceService
                 ->exists();
 
             if ($todayAttendance) {
-                return ['status' => Response::HTTP_CONFLICT, 'message' => 'Check-in record already exists for today.'];
+                return ['status' => Response::HTTP_CONFLICT, 'message' => trans('Check-in record already exists for today.')];
             }
 
             $attendance = Attendance::create([
@@ -46,7 +46,7 @@ class AttendanceService
             ]);
 
             Mail::to($employee->email)->queue(new AttendanceRecorded($attendance));
-            return ['status' => Response::HTTP_CREATED, 'message' => 'Check-in recorded and email sent.'];
+            return ['status' => Response::HTTP_CREATED, 'message' => trans('Check-in recorded and email sent.')];
         } catch (NotFoundException $e) {
             throw $e;
         } catch (\Throwable $th) {
@@ -72,12 +72,12 @@ class AttendanceService
                 ->first();
 
             if (!$attendance) {
-                return ['status' => Response::HTTP_NOT_FOUND, 'message' => 'No check-in record found for today.'];
+                return ['status' => Response::HTTP_NOT_FOUND, 'message' => trans('No check-in record found for today.')];
             }
 
             $attendance->update(['check_out' => now()]);
             Mail::to($employee->email)->queue(new AttendanceRecorded($attendance));
-            return ['status' => 200, 'message' => 'Check-out recorded and email sent.'];
+            return ['status' => 200, 'message' => trans('Check-out recorded and email sent.')];
         } catch (NotFoundException $e) {
             throw $e;
         } catch (\Throwable $th) {

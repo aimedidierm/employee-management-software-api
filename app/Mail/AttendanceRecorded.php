@@ -30,7 +30,7 @@ class AttendanceRecorded extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Attendance Recorded',
+            subject: trans('Attendance Recorded'),
         );
     }
 
