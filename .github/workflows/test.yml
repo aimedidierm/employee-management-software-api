@@ -43,8 +43,8 @@ jobs:
       - name: Set up MySQL connection
         run: |
           sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=mysql/' .env
-          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=employee_management_test/' .env
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=user/' .env
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=employee_management_api_test/' .env
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=password/' .env
 
       - name: Install wkhtmltopdf
