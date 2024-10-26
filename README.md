@@ -89,6 +89,8 @@ Welcome to the Employee Management Software API! This project is designed to hel
     ```
 
 ### All features are fully tested to guarantee functionality! ✅
+![tests](https://github.com/user-attachments/assets/804460cf-ba35-47d1-8470-565e575cb5c3)
+
 
 ## License
 
