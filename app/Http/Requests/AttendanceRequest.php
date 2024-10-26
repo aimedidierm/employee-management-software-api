@@ -28,16 +28,6 @@ class AttendanceRequest extends FormRequest
                 'required',
                 'exists:employees,id',
             ],
-            'check_in' => [
-                'required',
-                'date',
-                'before_or_equal:now',
-            ],
-            'check_out' => [
-                'nullable',
-                'date',
-                'after:check_in',
-            ],
         ];
     }
 
@@ -50,9 +40,6 @@ class AttendanceRequest extends FormRequest
         return [
             'employee_id.required' => 'The employee ID is required.',
             'employee_id.exists' => 'The employee must exist in the system.',
-            'check_in.required' => 'The check-in time is required.',
-            'check_in.before_or_equal' => 'Check-in time cannot be in the future.',
-            'check_out.after' => 'The check-out time must be after the check-in time.',
         ];
     }
 
@@ -64,8 +51,6 @@ class AttendanceRequest extends FormRequest
     {
         return [
             'employee_id' => 'employee',
-            'check_in' => 'check-in time',
-            'check_out' => 'check-out time',
         ];
     }
 }

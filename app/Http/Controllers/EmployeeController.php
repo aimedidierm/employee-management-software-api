@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
-use App\Models\Employee;
+use App\Service\EmployeeService;
 use Symfony\Component\HttpFoundation\Response;
 
 class EmployeeController extends Controller
 {
+    public function __construct(private EmployeeService $employeeService) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Employee::all();
+        try {
+            return $this->employeeService->getAllEmployees();
+        } catch (\Throwable $th) {
+            return $this->formatExceptionError($th);
+        }
     }
 
     /**
@@ -21,34 +27,49 @@ class EmployeeController extends Controller
      */
     public function store(EmployeeRequest $request)
     {
-        $employee = Employee::create($request->validated());
-        return response()->json($employee, Response::HTTP_CREATED);
+        try {
+            $this->employeeService->createEmployee($request->validated());
+            return response(null, Response::HTTP_CREATED);
+        } catch (\Throwable $th) {
+            return $this->formatExceptionError($th);
+        }
     }
-
 
     /**
      * Display the specified resource.
      */
-    public function show(Employee $employee)
+    public function show(int $employeeId)
     {
-        return $employee;
+        try {
+            return $this->employeeService->getEmployeeById($employeeId);
+        } catch (\Throwable $th) {
+            return $this->formatExceptionError($th);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(EmployeeRequest $request, Employee $employee)
+    public function update(EmployeeRequest $request, int $employeeId)
     {
-        $employee->update($request->validated());
-        return response()->json($employee);
+        try {
+            $updatedEmployee = $this->employeeService->updateEmployee($employeeId, $request->validated());
+            return response()->json($updatedEmployee);
+        } catch (\Throwable $th) {
+            return $this->formatExceptionError($th);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Employee $employee)
+    public function destroy(int $employeeId)
     {
-        $employee->delete();
-        return response()->noContent();
+        try {
+            $this->employeeService->deleteEmployee($employeeId);
+            return response()->noContent();
+        } catch (\Throwable $th) {
+            return $this->formatExceptionError($th);
+        }
     }
 }

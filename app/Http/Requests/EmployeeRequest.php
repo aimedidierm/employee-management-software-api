@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\EmployeePosition;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use ReflectionClass;
 
 class EmployeeRequest extends FormRequest
 {
@@ -29,13 +27,11 @@ class EmployeeRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                Rule::unique('employees')->ignore($this->employee)
             ],
             'position' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::in(array_values((new ReflectionClass(EmployeePosition::class))->getConstants()))
             ],
             'phone_number' => ['nullable', 'string', 'max:20'],
         ];

@@ -3,38 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AttendanceRequest;
-use App\Mail\AttendanceRecorded;
-use App\Models\Attendance;
-use App\Models\Employee;
-use Illuminate\Support\Facades\Mail;
+use App\Service\AttendanceService;
 
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+    protected $attendanceService;
+
+    public function __construct(AttendanceService $attendanceService)
+    {
+        $this->attendanceService = $attendanceService;
+    }
+
+    /** 
+     * Display a listing of the resource. 
      */
     public function index()
     {
-        $attendances = Attendance::with('employee')->whereDate('check_in', now()->toDateString())->get();
+        $attendances = $this->attendanceService->getAllAttendances();
         return response()->json($attendances);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(AttendanceRequest $request)
+    public function checkIn(AttendanceRequest $request)
     {
-        $employee = Employee::findOrFail($request->employee_id);
+        $response = $this->attendanceService->checkIn($request->employee_id);
+        return response()->json(['message' => $response['message']], $response['status']);
+    }
 
-
-        $attendance = Attendance::create([
-            'employee_id' => $employee->id,
-            'check_in' => $request->check_in,
-            'check_out' => $request->check_out
-        ]);
-
-        Mail::to($employee->email)->queue(new AttendanceRecorded($attendance));
-
-        return response()->json(['message' => 'Attendance recorded and email sent.'], 201);
+    public function checkOut(AttendanceRequest $request)
+    {
+        $response = $this->attendanceService->checkOut($request->employee_id);
+        return response()->json(['message' => $response['message']], $response['status']);
     }
 }
