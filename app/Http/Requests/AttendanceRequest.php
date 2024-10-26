@@ -38,8 +38,8 @@ class AttendanceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'employee_id.required' => 'The employee ID is required.',
-            'employee_id.exists' => 'The employee must exist in the system.',
+            'employee_id.required' => trans('The employee ID is required.'),
+            'employee_id.exists' => trans('The employee must exist in the system.'),
         ];
     }
 

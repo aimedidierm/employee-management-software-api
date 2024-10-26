@@ -27,7 +27,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validation error',
+                'message' => trans('Validation error'),
                 'errors' => $validator->errors()->all(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -48,7 +48,7 @@ class AuthController extends Controller
             ], Response::HTTP_OK);
         } else {
             return response()->json([
-                'error' => 'Invalid Email and Password'
+                'error' => trans('Invalid Email and Password')
             ], Response::HTTP_UNAUTHORIZED);
         }
     }
@@ -58,7 +58,7 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            "message" => "User logged out successfully",
+            "message" => trans("User logged out successfully"),
             "success" => true
         ], Response::HTTP_OK);
     }
@@ -73,7 +73,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validation error',
+                'message' => trans('Validation error'),
                 'errors' => $validator->errors()->all(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -103,7 +103,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validation error',
+                'message' => trans('Validation error'),
                 'errors' => $validator->errors()->all(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -112,7 +112,7 @@ class AuthController extends Controller
 
         if (!$user) {
             return response()->json([
-                'message' => 'User not found',
+                'message' => trans('User not found'),
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -121,7 +121,7 @@ class AuthController extends Controller
         Notification::send($user, new ResetPasswordNotification($token));
 
         return response()->json([
-            'message' => 'Password reset link sent.',
+            'message' => trans('Password reset link sent.'),
         ], Response::HTTP_OK);
     }
 
@@ -136,7 +136,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validation error',
+                'message' => trans('Validation error'),
                 'errors' => $validator->errors()->all(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }

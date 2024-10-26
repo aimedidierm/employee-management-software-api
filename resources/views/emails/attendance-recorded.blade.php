@@ -4,20 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Confirmation</title>
+    <title>{{__('Attendance Confirmation')}}</title>
 </head>
 
 <body>
-    <p>Hello {{ $attendance->employee->name }},</p>
+    <p>{{__('Hello')}} {{ $attendance->employee->name }},</p>
 
-    <p>Your attendance has been recorded as follows:</p>
+    <p>{{__('Your attendance has been recorded as follows:')}}</p>
 
     <ul>
-        <li>Check-in: {{ $attendance->check_in }}</li>
-        <li>Check-out: {{ $attendance->check_out ?? 'Not recorded yet' }}</li>
+        <li>{{__('Check-in:')}} {{ $attendance->check_in }}</li>
+        <li>{{__('Check-out:')}} {{ $attendance->check_out ?? __('Not recorded yet') }}</li>
     </ul>
 
-    <p>Thank you!</p>
+    <p>{{__('Thank you!')}}</p>
 </body>
 
 </html>

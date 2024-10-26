@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Daily Attendance Report - {{ $date }}</title>
+    <title>{{__('Daily Attendance Report')}} - {{ $date }}</title>
     <style>
         table,
         th,
@@ -16,15 +16,15 @@
 </head>
 
 <body>
-    <h2>Attendance Report for {{ $date }}</h2>
+    <h2>{{__('Attendance Report for')}} {{ $date }}</h2>
     <table>
         <thead>
             <tr>
-                <th>Employee ID</th>
-                <th>Employee Name</th>
-                <th>Position</th>
-                <th>Check In</th>
-                <th>Check Out</th>
+                <th>{{__('Employee ID')}}</th>
+                <th>{{__('Employee Name')}}</th>
+                <th>{{__('Position')}}</th>
+                <th>{{__('Check In')}}</th>
+                <th>{{__('Check Out')}}</th>
             </tr>
         </thead>
         <tbody>

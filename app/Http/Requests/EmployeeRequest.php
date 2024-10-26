@@ -40,9 +40,9 @@ class EmployeeRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Employee name is required.',
-            'email.required' => 'Email address is required.',
-            'email.unique' => 'This email is already taken.',
+            'name.required' => trans('Employee name is required.'),
+            'email.required' => trans('Email address is required.'),
+            'email.unique' => trans('This email is already taken.'),
         ];
     }
 }
